@@ -5,7 +5,7 @@
 <script>
 export default {
   async fetch({ store }) {
-    await store.dispatch('news-feed-items/fetchNewsItems')
+    await store.dispatch('news-feed-items/fetchHeadlines')
   }
 }
 </script>

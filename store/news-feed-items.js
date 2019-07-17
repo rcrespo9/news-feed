@@ -1,9 +1,7 @@
-const NewsAPI = require('newsapi')
-const newsapi = new NewsAPI(process.env.newsApiKey)
-
 export const state = () => ({
   newsFeedItems: [],
   page: 1,
+  pageSize: 20,
   totalResults: '',
   query: '',
   category: '',
@@ -13,27 +11,33 @@ export const state = () => ({
 })
 
 export const mutations = {
-  setNewsFeedItems(state, items) {
+  SET_NEWS_ITEMS(state, items) {
     state.newsFeedItems = items
   },
-  incrementPageNum(state) {
+  SET_TOTAL_RESULTS(state, totalResults) {
+    state.totalResults = totalResults
+  },
+  INCREMENT_PAGE_NUM(state) {
     state.pageNum++
   }
 }
 
 export const actions = {
-  fetchNewsItems({ commit, state }) {
+  async fetchHeadlines({ commit, state }) {
     const { category, country, page } = state
+    try {
+      const { articles, totalResults } = await this.$axios.$get(
+        '/top-headlines',
+        {
+          params: { category, country, page },
+          headers: { 'X-Api-Key': process.env.newsApiKey }
+        }
+      )
 
-    newsapi.v2
-      .topHeadlines({
-        category: category,
-        country: country,
-        page: page
-      })
-      .then((response) => {
-        console.log(response) // eslint-disable-line
-        commit('setNewsFeedItems', response.articles)
-      })
+      commit('SET_NEWS_ITEMS', articles)
+      commit('SET_TOTAL_RESULTS', totalResults)
+    } catch (error) {
+      throw new Error(error)
+    }
   }
 }
