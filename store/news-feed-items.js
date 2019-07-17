@@ -25,6 +25,7 @@ export const mutations = {
 export const actions = {
   async fetchHeadlines({ commit, state }) {
     const { category, country, page } = state
+
     try {
       const { articles, totalResults } = await this.$axios.$get(
         '/top-headlines',
