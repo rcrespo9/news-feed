@@ -37,6 +37,12 @@ export default {
     '@nuxtjs/eslint-module'
   ],
   /*
+   ** Environment variables
+   */
+  env: {
+    newsApiKey: process.env.NEWS_API_KEY
+  },
+  /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
