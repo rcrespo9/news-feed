@@ -1,6 +1,10 @@
 export const state = () => ({
   newsFeedItems: [],
-  pageNum: 1
+  pageNum: 1,
+  query: '',
+  category: '',
+  country: 'us',
+  language: 'en'
 })
 
 export const mutations = {
