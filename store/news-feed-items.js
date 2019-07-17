@@ -3,10 +3,12 @@ export const state = () => ({
   page: 1,
   pageSize: 20,
   totalResults: '',
-  query: '',
-  category: '',
-  country: 'us',
-  language: 'en'
+  params: {
+    query: '',
+    category: '',
+    country: 'us',
+    language: 'en'
+  }
 })
 
 export const getters = {
@@ -20,7 +22,7 @@ export const mutations = {
     state.newsFeedItems = items
   },
   ADD_MORE_NEWS_ITEMS(state, items) {
-    state.newsFeedItems.concat(items)
+    state.newsFeedItems = [...state.newsFeedItems, ...items]
   },
   SET_TOTAL_RESULTS(state, totalResults) {
     state.totalResults = totalResults
@@ -32,13 +34,13 @@ export const mutations = {
 
 export const actions = {
   async fetchHeadlines({ commit, state }) {
-    const { category, country, page } = state
+    const { page } = state.params
 
     try {
       const { articles, totalResults } = await this.$axios.$get(
         '/top-headlines',
         {
-          params: { category, country, page },
+          params: { ...state.params },
           headers: { 'X-Api-Key': process.env.newsApiKey }
         }
       )
