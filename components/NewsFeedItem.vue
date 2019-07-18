@@ -1,13 +1,13 @@
 <template>
   <article>
-    <a :href="url" target="_blank" rel="nofollow noreferrer">
+    <a :href="url" target="_blank" rel="nofollow noopener noreferrer">
       <div>
         <time pubdate :datetime="date">{{ date }}</time>
         <h2>{{ headline }}</h2>
         <address>{{ author }}</address>
         <p>{{ description }}</p>
       </div>
-      <img :src="image" :alt="description" />
+      <!-- <img :src="image" :alt="description" /> -->
     </a>
   </article>
 </template>

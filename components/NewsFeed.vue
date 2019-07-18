@@ -9,7 +9,6 @@
       :date="newsItem.publishedAt"
       :description="newsItem.description"
       :url="newsItem.url"
-      :image="newsItem.urlToImage"
     />
   </section>
 </template>
