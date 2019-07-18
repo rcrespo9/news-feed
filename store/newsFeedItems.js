@@ -1,9 +1,9 @@
 export const state = () => ({
   newsFeedItems: [],
-  page: 1,
   pageSize: 20,
   totalResults: '',
   params: {
+    page: 1,
     query: '',
     category: '',
     country: 'us',
@@ -18,25 +18,24 @@ export const getters = {
 }
 
 export const mutations = {
-  SET_NEWS_ITEMS(state, items) {
-    state.newsFeedItems = items
+  SET_NEWS_ITEMS(state, newsFeedItems) {
+    state.newsFeedItems = newsFeedItems
   },
-  ADD_MORE_NEWS_ITEMS(state, items) {
-    state.newsFeedItems = [...state.newsFeedItems, ...items]
+  ADD_MORE_NEWS_ITEMS(state, newsFeedItems) {
+    state.newsFeedItems = [...state.newsFeedItems, ...newsFeedItems]
   },
   SET_TOTAL_RESULTS(state, totalResults) {
     state.totalResults = totalResults
   },
-  INCREMENT_PAGE_NUM(state) {
-    state.pageNum++
+  INCREMENT_PAGE(state) {
+    state.params.page++
   }
 }
 
 export const actions = {
   async fetchHeadlines({ commit, state }) {
-    const { page } = state.params
-
     try {
+      const { page } = state.params
       const { articles, totalResults } = await this.$axios.$get(
         '/top-headlines',
         {
@@ -44,6 +43,9 @@ export const actions = {
           headers: { 'X-Api-Key': process.env.newsApiKey }
         }
       )
+
+      // commit('SET_NEWS_ITEMS', articles)
+      // commit('SET_TOTAL_RESULTS', totalResults)
 
       if (page > 1) {
         commit('ADD_MORE_NEWS_ITEMS', articles)
@@ -56,10 +58,10 @@ export const actions = {
     }
   },
 
-  loadMoreHeadlines({ commit, dispatch, getters }) {
+  fetchMoreHeadlines({ commit, dispatch, getters }) {
     if (getters.isMoreResults) {
+      commit('INCREMENT_PAGE')
       dispatch('fetchHeadlines')
-      commit('INCREMENT_PAGE_NUM')
     }
   }
 }
