@@ -2,9 +2,7 @@
   <article>
     <a :href="url" target="_blank" rel="nofollow noopener noreferrer">
       <div>
-        <time :datetime="date" :title="humanReadableDate">{{
-          formattedDate
-        }}</time>
+        <time :datetime="date" :title="formattedDate">{{ formattedDate }}</time>
         <h2>{{ headline }}</h2>
         <address>{{ author }}</address>
         <p>{{ description }}</p>

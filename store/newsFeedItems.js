@@ -2,8 +2,8 @@ export const state = () => ({
   newsFeedItems: [],
   pageSize: 20,
   totalResults: '',
+  page: 1,
   params: {
-    page: 1,
     query: '',
     category: '',
     country: 'us',
@@ -28,24 +28,24 @@ export const mutations = {
     state.totalResults = totalResults
   },
   INCREMENT_PAGE(state) {
-    state.params.page++
+    state.page++
   }
 }
 
 export const actions = {
   async fetchHeadlines({ commit, state }) {
     try {
-      const { params } = state
+      const { page, params } = state
 
       const { articles, totalResults } = await this.$axios.$get(
         '/top-headlines',
         {
-          params: { ...params },
+          params: { page, ...params },
           headers: { 'X-Api-Key': process.env.newsApiKey }
         }
       )
 
-      if (params.page > 1) {
+      if (page > 1) {
         commit('ADD_MORE_NEWS_ITEMS', articles)
       } else {
         commit('SET_NEWS_ITEMS', articles)
