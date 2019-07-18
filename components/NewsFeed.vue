@@ -6,7 +6,7 @@
       :key="idx"
       :headline="newsItem.title"
       :author="newsItem.author"
-      :date="newsItem.publishedAt"
+      :date="newsItem.publishedAt | validatedDate"
       :description="newsItem.description"
       :url="newsItem.url"
     />
@@ -26,6 +26,12 @@ export default {
     newsItems: {
       type: Array,
       required: true
+    }
+  },
+  filters: {
+    validatedDate(date) {
+      if (!date) return ''
+      return new Date(date)
     }
   }
 }

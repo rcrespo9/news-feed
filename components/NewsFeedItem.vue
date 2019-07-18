@@ -2,7 +2,7 @@
   <article>
     <a :href="url" target="_blank" rel="nofollow noopener noreferrer">
       <div>
-        <time pubdate :datetime="date">{{ date }}</time>
+        <time pubdate :datetime="date">{{ formattedDate }}</time>
         <h2>{{ headline }}</h2>
         <address>{{ author }}</address>
         <p>{{ description }}</p>
@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import { format } from 'date-fns'
+
 export default {
   name: 'NewsFeedItem',
   props: {
@@ -22,6 +24,11 @@ export default {
     date: Date,
     image: String,
     description: String
+  },
+  computed: {
+    formattedDate() {
+      return format(this.date, 'MM-DD-YYYY')
+    }
   }
 }
 </script>
