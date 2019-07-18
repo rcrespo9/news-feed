@@ -6,8 +6,7 @@ export const state = () => ({
   params: {
     query: '',
     category: '',
-    country: 'us',
-    language: 'en'
+    country: 'us'
   }
 })
 
