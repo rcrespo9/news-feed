@@ -44,9 +44,6 @@ export const actions = {
         }
       )
 
-      // commit('SET_NEWS_ITEMS', articles)
-      // commit('SET_TOTAL_RESULTS', totalResults)
-
       if (page > 1) {
         commit('ADD_MORE_NEWS_ITEMS', articles)
       } else {
