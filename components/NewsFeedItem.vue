@@ -29,9 +29,6 @@ export default {
   },
   computed: {
     formattedDate() {
-      return format(this.date, 'MM-DD-YYYY')
-    },
-    humanReadableDate() {
       return format(this.date, 'MMMM Do, YYYY')
     }
   }
