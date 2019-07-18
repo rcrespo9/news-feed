@@ -1,26 +1,25 @@
 <template>
   <div>
-    <p>{{ pageCount }}</p>
-    <button @click="fetchMoreHeadlines">
+    <button v-if="isMoreResults" @click="fetchMoreHeadlines">
       Load More
     </button>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { createNamespacedHelpers } from 'vuex'
+
+const { mapActions, mapGetters } = createNamespacedHelpers('newsFeedItems')
 
 export default {
   computed: {
-    pageCount() {
-      return this.$store.state.newsFeedItems.params.page
-    }
+    ...mapGetters(['isMoreResults'])
   },
   async fetch({ store }) {
     await store.dispatch('newsFeedItems/fetchHeadlines')
   },
   methods: {
-    ...mapActions({ fetchMoreHeadlines: 'newsFeedItems/fetchMoreHeadlines' })
+    ...mapActions(['fetchMoreHeadlines'])
   }
 }
 </script>
