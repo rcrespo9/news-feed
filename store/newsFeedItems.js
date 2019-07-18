@@ -35,16 +35,17 @@ export const mutations = {
 export const actions = {
   async fetchHeadlines({ commit, state }) {
     try {
-      const { page } = state.params
+      const { params } = state
+
       const { articles, totalResults } = await this.$axios.$get(
         '/top-headlines',
         {
-          params: { ...state.params },
+          params: { ...params },
           headers: { 'X-Api-Key': process.env.newsApiKey }
         }
       )
 
-      if (page > 1) {
+      if (params.page > 1) {
         commit('ADD_MORE_NEWS_ITEMS', articles)
       } else {
         commit('SET_NEWS_ITEMS', articles)
