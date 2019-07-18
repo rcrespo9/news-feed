@@ -2,7 +2,9 @@
   <article>
     <a :href="url" target="_blank" rel="nofollow noopener noreferrer">
       <div>
-        <time pubdate :datetime="date">{{ formattedDate }}</time>
+        <time :datetime="date" :title="humanReadableDate">{{
+          formattedDate
+        }}</time>
         <h2>{{ headline }}</h2>
         <address>{{ author }}</address>
         <p>{{ description }}</p>
@@ -28,6 +30,9 @@ export default {
   computed: {
     formattedDate() {
       return format(this.date, 'MM-DD-YYYY')
+    },
+    humanReadableDate() {
+      return format(this.date, 'MMMM Do, YYYY')
     }
   }
 }

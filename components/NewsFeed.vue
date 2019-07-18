@@ -18,6 +18,12 @@ import NewsFeedItem from './NewsFeedItem'
 export default {
   name: 'NewsFeed',
   components: { NewsFeedItem },
+  filters: {
+    validatedDate(date) {
+      if (!date) return ''
+      return new Date(date)
+    }
+  },
   props: {
     header: {
       type: String,
@@ -26,12 +32,6 @@ export default {
     newsItems: {
       type: Array,
       required: true
-    }
-  },
-  filters: {
-    validatedDate(date) {
-      if (!date) return ''
-      return new Date(date)
     }
   }
 }
