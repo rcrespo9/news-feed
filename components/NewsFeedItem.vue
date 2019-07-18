@@ -18,12 +18,30 @@ import { format } from 'date-fns'
 export default {
   name: 'NewsFeedItem',
   props: {
-    headline: String,
-    author: String,
-    url: String,
-    date: Date,
-    image: String,
-    description: String
+    headline: {
+      type: String,
+      default: ''
+    },
+    author: {
+      type: String,
+      default: ''
+    },
+    url: {
+      type: String,
+      default: ''
+    },
+    date: {
+      type: Date,
+      default: ''
+    },
+    image: {
+      type: String,
+      default: ''
+    },
+    description: {
+      type: String,
+      default: ''
+    }
   },
   computed: {
     formattedDate() {
