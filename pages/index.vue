@@ -9,11 +9,14 @@
 <script>
 import { createNamespacedHelpers } from 'vuex'
 
-const { mapActions, mapGetters } = createNamespacedHelpers('newsFeedItems')
+const { mapActions, mapGetters, mapState } = createNamespacedHelpers(
+  'newsFeedItems'
+)
 
 export default {
   computed: {
-    ...mapGetters(['isMoreResults'])
+    ...mapGetters(['isMoreResults']),
+    ...mapState(['newsFeedItems'])
   },
   async fetch({ store }) {
     await store.dispatch('newsFeedItems/fetchHeadlines')
