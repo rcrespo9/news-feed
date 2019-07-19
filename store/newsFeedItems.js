@@ -4,7 +4,7 @@ export const state = () => ({
   totalResults: '',
   page: 1,
   params: {
-    query: '',
+    q: '',
     category: '',
     country: 'us'
   }
@@ -28,6 +28,16 @@ export const mutations = {
   },
   INCREMENT_PAGE(state) {
     state.page++
+  },
+  RESET_PAGE(state) {
+    state.page = 1
+  },
+  SET_PARAM(state, { param, val }) {
+    const { params } = state
+
+    if (Object.prototype.hasOwnProperty.call(params, param)) {
+      params[param] = val
+    }
   }
 }
 
@@ -55,10 +65,25 @@ export const actions = {
     }
   },
 
-  fetchMoreHeadlines({ commit, dispatch, getters }) {
-    if (getters.isMoreResults) {
-      commit('INCREMENT_PAGE')
-      dispatch('fetchHeadlines')
+  async fetchMoreHeadlines({ commit, dispatch, getters }) {
+    try {
+      if (getters.isMoreResults) {
+        commit('INCREMENT_PAGE')
+        await dispatch('fetchHeadlines')
+      }
+    } catch (error) {
+      throw new Error(error)
+    }
+  },
+
+  async fetchHeadlinesQuery({ commit, dispatch }, { param, val }) {
+    commit('RESET_PAGE')
+    commit('SET_PARAM', { param, val })
+
+    try {
+      await dispatch('fetchHeadlines')
+    } catch (error) {
+      throw new Error(error)
     }
   }
 }
