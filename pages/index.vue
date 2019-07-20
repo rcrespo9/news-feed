@@ -20,7 +20,6 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
-import debounce from 'lodash.debounce'
 import NewsFeed from '@/components/NewsFeed'
 
 const { mapActions, mapGetters, mapState } = createNamespacedHelpers(
@@ -46,8 +45,7 @@ export default {
         return this.params.category
       },
       set(newVal) {
-        console.log(newVal) // eslint-disable-line
-        this.fetchHeadlinesQuery({ param: 'category', val: newVal })
+        this.filterHeadlines({ param: 'category', val: newVal })
       }
     },
     ...mapGetters(['isMoreResults']),
@@ -58,14 +56,9 @@ export default {
   },
   methods: {
     setQueryParam(e) {
-      const debouncedQuery = debounce(
-        () => this.fetchHeadlinesQuery({ param: 'q', val: e.target.value }),
-        500
-      )
-
-      debouncedQuery()
+      this.filterHeadlines({ param: 'q', val: e.target.value })
     },
-    ...mapActions(['fetchMoreHeadlines', 'fetchHeadlinesQuery'])
+    ...mapActions(['fetchMoreHeadlines', 'filterHeadlines'])
   }
 }
 </script>

@@ -1,3 +1,5 @@
+import debounce from 'lodash.debounce'
+
 export const state = () => ({
   newsFeedItems: [],
   pageSize: 20,
@@ -76,12 +78,14 @@ export const actions = {
     }
   },
 
-  async fetchHeadlinesQuery({ commit, dispatch }, { param, val }) {
+  async filterHeadlines({ commit, dispatch }, { param, val }) {
     commit('RESET_PAGE')
     commit('SET_PARAM', { param, val })
 
     try {
-      await dispatch('fetchHeadlines')
+      const debouncedFilter = debounce(() => dispatch('fetchHeadlines'), 500)
+
+      await debouncedFilter()
     } catch (error) {
       throw new Error(error)
     }
