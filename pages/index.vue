@@ -1,6 +1,16 @@
 <template>
   <div>
-    <input type="text" data-param="q" @input="filterWatcher" />
+    <input type="text" data-param="q" @input="setQueryParam" />
+
+    <label v-for="category in categories" :key="category">
+      <input
+        :id="category"
+        v-model="categoryParam"
+        :value="category"
+        type="radio"
+        name="category"
+      />{{ category }}
+    </label>
     <NewsFeed header="Latest Headlines" :news-items="newsFeedItems" />
     <button v-if="isMoreResults" @click="fetchMoreHeadlines">
       Load More
@@ -19,7 +29,27 @@ const { mapActions, mapGetters, mapState } = createNamespacedHelpers(
 
 export default {
   components: { NewsFeed },
+  data: () => ({
+    categories: [
+      'business',
+      'entertainment',
+      'general',
+      'health',
+      'science',
+      'sports',
+      'technology'
+    ]
+  }),
   computed: {
+    categoryParam: {
+      get() {
+        return this.params.category
+      },
+      set(newVal) {
+        console.log(newVal) // eslint-disable-line
+        this.fetchHeadlinesQuery({ param: 'category', val: newVal })
+      }
+    },
     ...mapGetters(['isMoreResults']),
     ...mapState(['newsFeedItems', 'params'])
   },
@@ -27,17 +57,15 @@ export default {
     await store.dispatch('newsFeedItems/fetchHeadlines')
   },
   methods: {
-    ...mapActions(['fetchMoreHeadlines', 'fetchHeadlinesQuery']),
-    filterWatcher(e) {
-      const { value, dataset } = e.target
-
+    setQueryParam(e) {
       const debouncedQuery = debounce(
-        () => this.fetchHeadlinesQuery({ param: dataset.param, val: value }),
+        () => this.fetchHeadlinesQuery({ param: 'q', val: e.target.value }),
         500
       )
 
       debouncedQuery()
-    }
+    },
+    ...mapActions(['fetchMoreHeadlines', 'fetchHeadlinesQuery'])
   }
 }
 </script>
