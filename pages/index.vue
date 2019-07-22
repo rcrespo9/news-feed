@@ -21,6 +21,7 @@
 <script>
 import { createNamespacedHelpers } from 'vuex'
 import NewsFeed from '@/components/NewsFeed'
+import countries from '@/assets/countries.json'
 
 const { mapActions, mapGetters, mapState } = createNamespacedHelpers(
   'newsFeedItems'
@@ -37,7 +38,8 @@ export default {
       'science',
       'sports',
       'technology'
-    ]
+    ],
+    countries
   }),
   computed: {
     categoryParam: {

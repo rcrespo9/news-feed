@@ -7,7 +7,6 @@
       :headline="newsItem.title"
       :author="newsItem.author"
       :date="newsItem.publishedAt | validatedDate"
-      :description="newsItem.description"
       :url="newsItem.url"
     />
   </section>

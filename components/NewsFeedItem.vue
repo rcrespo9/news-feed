@@ -5,7 +5,6 @@
         <time :datetime="date" :title="formattedDate">{{ formattedDate }}</time>
         <h2>{{ headline }}</h2>
         <address>{{ author }}</address>
-        <p>{{ description }}</p>
       </div>
       <!-- <img :src="image" :alt="description" /> -->
     </a>
@@ -35,10 +34,6 @@ export default {
       default: ''
     },
     image: {
-      type: String,
-      default: ''
-    },
-    description: {
       type: String,
       default: ''
     }
