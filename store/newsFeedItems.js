@@ -96,7 +96,7 @@ export const actions = {
     }
   },
 
-  resetFilters({ commit }) {
+  resetParams({ commit }) {
     commit('RESET_PAGE')
     commit('SET_INITIAL_PARAMS')
   }
