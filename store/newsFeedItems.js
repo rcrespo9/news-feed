@@ -1,15 +1,17 @@
 import debounce from 'lodash.debounce'
 
+const initialParams = {
+  q: '',
+  category: '',
+  country: 'us'
+}
+
 export const state = () => ({
   newsFeedItems: [],
   pageSize: 20,
   totalResults: '',
   page: 1,
-  params: {
-    q: '',
-    category: '',
-    country: 'us'
-  }
+  params: initialParams
 })
 
 export const getters = {
@@ -33,6 +35,9 @@ export const mutations = {
   },
   RESET_PAGE(state) {
     state.page = 1
+  },
+  SET_INITIAL_PARAMS(state) {
+    state.params = initialParams
   },
   SET_PARAM(state, { param, val }) {
     const { params } = state
@@ -89,5 +94,10 @@ export const actions = {
     } catch (error) {
       throw new Error(error)
     }
+  },
+
+  resetFilters({ commit }) {
+    commit('RESET_PAGE')
+    commit('SET_INITIAL_PARAMS')
   }
 }
