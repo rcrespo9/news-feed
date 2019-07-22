@@ -2,14 +2,30 @@
   <div>
     <input type="text" data-param="q" @input="setQueryParam" />
 
-    <label v-for="category in categories" :key="category">
-      <input
-        :id="category"
-        v-model="categoryParam"
-        :value="category"
-        type="radio"
-        name="category"
-      />{{ category }}
+    <label>
+      Category
+      <select v-model="categoryParam">
+        <option value="">All categories</option>
+        <option
+          v-for="category in categories"
+          :key="category"
+          :value="category"
+        >
+          {{ category }}
+        </option>
+      </select>
+    </label>
+    <label>
+      Countries
+      <select v-model="countryParam">
+        <option
+          v-for="country in countries"
+          :key="country.abbr"
+          :value="country.abbr"
+        >
+          {{ country.name }}
+        </option>
+      </select>
     </label>
     <NewsFeed header="Latest Headlines" :news-items="newsFeedItems" />
     <button v-if="isMoreResults" @click="fetchMoreHeadlines">
@@ -48,6 +64,14 @@ export default {
       },
       set(newVal) {
         this.filterHeadlines({ param: 'category', val: newVal })
+      }
+    },
+    countryParam: {
+      get() {
+        return this.params.country
+      },
+      set(newVal) {
+        this.filterHeadlines({ param: 'country', val: newVal })
       }
     },
     ...mapGetters(['isMoreResults']),
