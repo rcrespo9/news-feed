@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input type="text" data-param="q" @input="setQueryParam" />
+    <input v-model="queryParam" type="text" />
 
     <label>
       Category
@@ -27,6 +27,9 @@
         </option>
       </select>
     </label>
+    <button v-if="isFiltersActive" @click="resetParams">
+      Reset Filters
+    </button>
     <NewsFeed header="Latest Headlines" :news-items="newsFeedItems" />
     <button v-if="isMoreResults" @click="fetchMoreHeadlines">
       Load More
@@ -58,6 +61,14 @@ export default {
     countries
   }),
   computed: {
+    queryParam: {
+      get() {
+        return this.params.q
+      },
+      set(newVal) {
+        this.filterHeadlines({ param: 'q', val: newVal })
+      }
+    },
     categoryParam: {
       get() {
         return this.params.category
@@ -74,17 +85,14 @@ export default {
         this.filterHeadlines({ param: 'country', val: newVal })
       }
     },
-    ...mapGetters(['isMoreResults']),
+    ...mapGetters(['isMoreResults', 'isFiltersActive']),
     ...mapState(['newsFeedItems', 'params'])
   },
   async fetch({ store }) {
     await store.dispatch('newsFeedItems/fetchHeadlines')
   },
   methods: {
-    setQueryParam(e) {
-      this.filterHeadlines({ param: 'q', val: e.target.value })
-    },
-    ...mapActions(['fetchMoreHeadlines', 'filterHeadlines'])
+    ...mapActions(['fetchMoreHeadlines', 'filterHeadlines', 'resetParams'])
   }
 }
 </script>
