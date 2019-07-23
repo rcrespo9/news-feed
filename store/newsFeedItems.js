@@ -17,9 +17,9 @@ export const getters = {
     return state.totalResults !== state.newsFeedItems.length
   },
   isFiltersActive: (state) => {
-    const { q, category } = state.params
+    const { q, category, country } = state.params
 
-    return !!q.length || !!category.length
+    return !!q.length || !!category.length || country !== 'us'
   }
 }
 
